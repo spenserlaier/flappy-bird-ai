@@ -2,6 +2,7 @@ import pygame
 import sys
 import bird_logic
 import pipe_logic
+import random
 
 
 SCREEN_WIDTH = 1000
@@ -38,7 +39,8 @@ while is_running:
     bird.step()
     if ticks == pipe_generator.interval:
         reverse_pipe = not reverse_pipe
-        pipe_generator.generate_pipe(reverse=reverse_pipe)
+        pipe_height = random.randint(40, SCREEN_HEIGHT-40)
+        pipe_generator.generate_pipe_pair(pipe_height)
         ticks = 0
 
 

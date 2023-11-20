@@ -8,7 +8,8 @@ class PipeGenerator:
                  speed, 
                  starting_x, 
                  interval,
-                 screen_height):
+                 screen_height,
+                 gap_size=40):
 
         self.width = width
         self.length = length
@@ -16,6 +17,7 @@ class PipeGenerator:
         self.starting_x = starting_x
         self.interval = interval
         self.screen_height = screen_height
+        self.gap_size = gap_size
 
         self.pipes = []
     def generate_pipe(self, length=None, reverse=False):
@@ -27,7 +29,18 @@ class PipeGenerator:
                         length=length_val, 
                         x=self.starting_x, 
                         y=y_val)
-        self.pipes.append(new_pipe)
+        return new_pipe
+    def generate_pipe_pair(self, gap_height):
+        #the top pipe extends from the top of the screen down to the top left corner of the gap
+        #the bottom pipe begins from the end of the top pipe + the gap height down to the bottom of the screen
+        top_pipe_length = gap_height
+        bottom_pipe_length =   self.screen_height - top_pipe_length - self.gap_size
+        top_pipe = self.generate_pipe(top_pipe_length)
+        bot_pipe = self.generate_pipe(bottom_pipe_length, reverse=True)
+        self.pipes.append(top_pipe)
+        self.pipes.append(bot_pipe)
+
+
     def clean_pipes(self):
         clean_pipes = []
         for pipe in self.pipes:
