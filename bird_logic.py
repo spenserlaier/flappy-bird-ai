@@ -1,5 +1,5 @@
 class Bird:
-    def __init__(self, x=0, y=0, size=50, screen_height=400):
+    def __init__(self, x=0, y=0, size=50, screen_height=400, neural_net=None):
         self.x = x
         self.y = y
         self.size = size
@@ -8,13 +8,18 @@ class Bird:
         self.step_size = 2
         self.screen_height = screen_height
         self.alive = True
+        self.neural_net = neural_net
 
     def step(self):
         self.y -= self.accel*self.step_size
         if self.accel > self.base_accel:
             self.accel -= 2
-    def jump(self):
-        self.accel = 20
+    def jump(self, pipe_1_data=None, pipe_2_data=None):
+        if self.neural_net is not None:
+            inputs = [self.accel,]
+            jump_prob = self.neural_net.forward()
+        else:
+            self.accel = 20
     def check_collision(self, pipe):
         if pipe.y <= self.y <= pipe.y + pipe.length:
             if pipe.x <= self.x + self.size <= pipe.x + pipe.width:

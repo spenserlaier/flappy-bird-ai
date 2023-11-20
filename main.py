@@ -2,6 +2,7 @@ import pygame
 import sys
 import bird_logic
 import pipe_logic
+import genetic_algo
 import random
 
 
@@ -36,6 +37,7 @@ pipe_generator = pipe_logic.PipeGenerator(width=PIPE_WIDTH,
                                           gap_size=PIPE_GAP_SIZE)
 ticks = 0
 gap_height = SCREEN_HEIGHT//2
+
 while is_running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
