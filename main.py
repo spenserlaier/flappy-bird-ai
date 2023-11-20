@@ -19,10 +19,11 @@ clock = pygame.time.Clock()
 is_running = True
 bird = bird_logic.Bird(x=20, y=20, size=25)
 
-pipe_generator = pipe_logic.PipeGenerator(pipe_width=20,
-                                          pipe_speed=10,
-                                          x_start=SCREEN_WIDTH + 30,
-                                          pipe_interval=60,
+pipe_generator = pipe_logic.PipeGenerator(width=20,
+                                          length=400,
+                                          speed=10,
+                                          starting_x=SCREEN_WIDTH+30,
+                                          interval=30,
                                           screen_height=SCREEN_HEIGHT)
 ticks = 0
 reverse_pipe = False
@@ -35,11 +36,9 @@ while is_running:
                 bird.jump()
     pipe_generator.clean_pipes()
     bird.step()
-    if ticks == pipe_generator.pipe_interval:
+    if ticks == pipe_generator.interval:
         reverse_pipe = not reverse_pipe
-        pipe_generator.generate_pipe(pipe_top=0, 
-                                     pipe_bottom=30, 
-                                     reverse=reverse_pipe)
+        pipe_generator.generate_pipe(reverse=reverse_pipe)
         ticks = 0
 
 
