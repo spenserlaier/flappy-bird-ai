@@ -1,33 +1,48 @@
+import random
 class Bird:
-    def __init__(self, x=0, y=0, size=50, screen_height=400, neural_net=None):
+
+    def __init__(self, x=0, y=0, size=50, screen_height=None, neural_net=None):
         self.x = x
         self.y = y
+        self.color = (random.randint(0,255), 
+                      random.randint(0,255),
+                      random.randint(0,255),
+                      )
         self.size = size
         self.accel = -5
         self.base_accel = -10
         self.step_size = 2
         self.screen_height = screen_height
         self.alive = True
+        self.survival_time = 0
         self.neural_net = neural_net
 
     def step(self):
         self.y -= self.accel*self.step_size
+        self.survival_time += 1
         if self.accel > self.base_accel:
             self.accel -= 2
-    def jump(self, pipe_1_data=None, pipe_2_data=None):
+    def jump(self, p1_y=None, p2_y=None, p_x=None):
         if self.neural_net is not None:
-            inputs = [self.accel,]
-            jump_prob = self.neural_net.forward()
+            if self.survival_time % 25 == 0:
+                inputs = [self.accel, p1_y, p2_y, p_x, self.y]
+                jump_prob = self.neural_net.forward(inputs)
+                # print(f"jump probability: {jump_prob}")
+                if jump_prob > 0.5:
+                    self.accel = 20
         else:
             self.accel = 20
     def check_collision(self, pipe):
         if pipe.y <= self.y <= pipe.y + pipe.length:
             if pipe.x <= self.x + self.size <= pipe.x + pipe.width:
+                print("bird died: collided with pipe")
                 self.y = 0
                 self.alive = False
                 return True
         if (self.y + self.size > self.screen_height or
             self.y < 0):
+            print("bird died: too high or too low")
+            print(f'bird height: {self.y}; max height: {self.screen_height}')
             self.y = 0
             self.alive = False
             return True

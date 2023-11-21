@@ -37,6 +37,7 @@ class PipeGenerator:
         bottom_pipe_length =   self.screen_height - top_pipe_length - self.gap_size
         top_pipe = self.generate_pipe(top_pipe_length)
         bot_pipe = self.generate_pipe(bottom_pipe_length, reverse=True)
+        print('generating pipe pair')
         self.pipes.append(top_pipe)
         self.pipes.append(bot_pipe)
 

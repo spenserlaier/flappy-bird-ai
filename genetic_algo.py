@@ -1,11 +1,8 @@
 import random
 import bird_logic
 import numpy as np
-
-# Define constants
-POPULATION_SIZE = 50
-MUTATION_RATE = 0.1
-GENERATIONS = 100
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
 
 class NeuralNetwork:
     def __init__(self, input_size, hidden_size, output_size):
@@ -18,7 +15,10 @@ class NeuralNetwork:
         output = np.dot(hidden, self.weights_hidden_output)
         output = 1 / (1 + np.exp(-output))
         return output
-def should_flap(self, inputs):
-    # Neural network decision
-    output = self.neural_network.forward(inputs)
-    return output > 0  # Adjust threshold as needed
+
+def create_neural_network(input_size, hidden_size, output_size):
+    model = Sequential()
+    model.add(Dense(hidden_size, input_dim=input_size, activation='sigmoid'))
+    model.add(Dense(output_size, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+    return model
