@@ -31,7 +31,7 @@ class Bird:
                 jump_prob = self.neural_net.forward(inputs)
                 # print(f"jump probability: {jump_prob}")
                 if jump_prob > 0.5:
-                    self.accel = 12
+                    self.accel = 14
         else:
             self.accel = 20
     def check_collision(self, pipe):
