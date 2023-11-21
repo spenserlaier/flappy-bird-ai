@@ -24,25 +24,27 @@ class Bird:
             self.accel -= 2
     def jump(self, p1_y=None, p2_y=None, p_x=None):
         if self.neural_net is not None:
-            if self.survival_time % 25 == 0:
+            #if self.survival_time % 5 == 0:
+            if True:
                 inputs = [self.accel, p1_y, p2_y, p_x, self.y]
+                #print(f"accel: {self.accel} p1_y: {p1_y}, p2_y: {p2_y}  p_x: {p_x} self ypos: {self.y}")
                 jump_prob = self.neural_net.forward(inputs)
                 # print(f"jump probability: {jump_prob}")
                 if jump_prob > 0.5:
-                    self.accel = 20
+                    self.accel = 12
         else:
             self.accel = 20
     def check_collision(self, pipe):
         if pipe.y <= self.y <= pipe.y + pipe.length:
             if pipe.x <= self.x + self.size <= pipe.x + pipe.width:
-                print("bird died: collided with pipe")
+                #print("bird died: collided with pipe")
                 self.y = 0
                 self.alive = False
                 return True
         if (self.y + self.size > self.screen_height or
             self.y < 0):
-            print("bird died: too high or too low")
-            print(f'bird height: {self.y}; max height: {self.screen_height}')
+            #print("bird died: too high or too low")
+            #print(f'bird height: {self.y}; max height: {self.screen_height}')
             self.y = 0
             self.alive = False
             return True

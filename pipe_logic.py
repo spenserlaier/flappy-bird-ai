@@ -38,15 +38,17 @@ class PipeGenerator:
         top_pipe = self.generate_pipe(top_pipe_length)
         bot_pipe = self.generate_pipe(bottom_pipe_length, reverse=True)
         print('generating pipe pair')
-        self.pipes.append(top_pipe)
-        self.pipes.append(bot_pipe)
+        #self.pipes.append(top_pipe)
+        #self.pipes.append(bot_pipe)
+        self.pipes.append((top_pipe, bot_pipe))
+
 
 
     def clean_pipes(self):
         clean_pipes = []
-        for pipe in self.pipes:
-            if pipe.x > -1*self.width:
-                clean_pipes.append(pipe)
+        for p1, p2 in self.pipes:
+            if p1.x > -1*self.width:
+                clean_pipes.append((p1, p2))
         self.pipes = clean_pipes
 class Pipe:
     def __init__(self, 
